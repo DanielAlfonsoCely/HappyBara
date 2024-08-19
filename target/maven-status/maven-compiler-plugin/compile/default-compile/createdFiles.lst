@@ -1,8 +1,8 @@
-com\thisastergroup\controller\CtrlSignUp.class
 com\thisastergroup\model\JournalEntry.class
+com\thisastergroup\controller\ctrlLogin.class
 com\thisastergroup\controller\App.class
-com\thisastergroup\controller\CtrlLogin.class
 com\thisastergroup\model\SQLJournalMethods.class
 com\thisastergroup\model\SQLUserMethods.class
+com\thisastergroup\controller\ctrlSignUp.class
 com\thisastergroup\model\User.class
 com\thisastergroup\model\SQLConnection.class

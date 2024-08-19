@@ -21,7 +21,7 @@ import com.thisastergroup.model.SQLUserMethods;
 
 import com.thisastergroup.model.User;
 
-public class CtrlLogin {
+public class ctrlLogin {
     @FXML
     private Label msgLogin;
     @FXML

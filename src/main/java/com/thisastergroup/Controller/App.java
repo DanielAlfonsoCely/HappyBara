@@ -23,7 +23,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("..//view//Journal.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("..//view//Room.fxml"));
              
         scene = new Scene(root, 640, 480);
         scene.setFill(Color.TRANSPARENT); //Added for rounded corners

@@ -26,7 +26,7 @@ import javafx.scene.control.PasswordField;
  * 
  */
 
-public class CtrlSignUp implements Initializable{
+public class ctrlSignUp implements Initializable{
    
     
     @FXML

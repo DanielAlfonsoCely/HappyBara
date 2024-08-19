@@ -28,9 +28,9 @@
          <children>
             <AnchorPane fx:id="apButtons" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: gray;">
                <children>
-                  <Button fx:id="btnSleep" disable="true" layoutX="85.0" layoutY="14.0" mnemonicParsing="false" opacity="0.55" prefHeight="40.0" prefWidth="40.0" text="." AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="20.0" />
-                  <Button fx:id="btnFood" disable="true" mnemonicParsing="false" opacity="0.55" prefHeight="40.0" prefWidth="40.0" text="." AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-                  <Button fx:id="btnHygiene" disable="true" mnemonicParsing="false" opacity="0.55" prefHeight="40.0" prefWidth="40.0" text="." AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
+                  <Button fx:id="btnSleep" disable="true" layoutX="85.0" layoutY="14.0" mnemonicParsing="false" onAction="#sleep" opacity="0.55" prefHeight="40.0" prefWidth="40.0" text="." AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="20.0" />
+                  <Button fx:id="btnFood" disable="true" mnemonicParsing="false" onAction="#feed" opacity="0.55" prefHeight="40.0" prefWidth="40.0" text="." AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                  <Button fx:id="btnHygiene" disable="true" mnemonicParsing="false" onAction="#clean" opacity="0.55" prefHeight="40.0" prefWidth="40.0" text="." AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
                   <ImageView fx:id="imgIndicator" fitHeight="50.0" fitWidth="50.0" layoutX="75.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="75.0" AnchorPane.topAnchor="75.0" />
                </children>
                <HBox.margin>

@@ -10,6 +10,10 @@ import javafx.scene.transform.Translate;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.Duration;
+
 
 public class CtrlRoom {
     @FXML
@@ -40,7 +44,10 @@ public class CtrlRoom {
     private float hygiene;
     private float sleep;
     private float food;
-
+    private LocalDateTime lasTimefeed;
+    private LocalDateTime lasTimesleep;
+    private LocalDateTime lasTimeclean;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     public void initialize() {
 
         /*
@@ -130,5 +137,59 @@ public class CtrlRoom {
     protected void refreshIndicator() {
         indicator = (hygiene + sleep + food) / 3;
     }
+
+
+    //Methods to interact with the pet
+    public void feed() {
+        sleep = 100;
+
+        
+        LocalDateTime now = LocalDateTime.now();
+        if(lasTimefeed == null){
+            lasTimefeed = now;
+        }
+        else{
+            System.out.println("Last time: " + lasTimefeed);
+            System.out.println("Now: " + now);
+            Duration duration = Duration.between(lasTimefeed, now);
+            lasTimefeed = now;
+            System.out.println("Seconds: " + duration.toSeconds());
+        }
+
+        System.out.println("Sleeping");
+    }
+    public void clean() {
+        hygiene = 100;
+        LocalDateTime now = LocalDateTime.now();
+        if(lasTimeclean == null){
+            lasTimeclean = now;
+        }
+        else{
+            System.out.println("Last time: " + lasTimeclean);
+            System.out.println("Now: " + now);
+            Duration duration = Duration.between(lasTimeclean, now);
+            lasTimeclean = now;
+            System.out.println("Seconds: " + duration.toSeconds());
+        }
+
+        System.out.println("Cleaning");
+    }
+    public void sleep() {
+        food = 100;
+        LocalDateTime now = LocalDateTime.now();
+        if(lasTimesleep == null){
+            lasTimesleep = now;
+        }
+        else{
+            System.out.println("Last time: " + lasTimesleep);
+            System.out.println("Now: " + now);
+            Duration duration = Duration.between(lasTimesleep, now);
+            lasTimesleep = now;
+            System.out.println("Seconds: " + duration.toSeconds());
+        }
+
+        System.err.println("Feeding");
+    }
+
 
 }
