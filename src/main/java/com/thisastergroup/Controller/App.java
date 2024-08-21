@@ -35,10 +35,13 @@ public class App extends Application {
         Image icon = new Image("file:src/main/resources/Icon.png");        
         stage.getIcons().add(icon);
         stage.show();
+        
     }
 
     public static void main(String[] args) {
+
         launch(args);
+        
 
     }
 

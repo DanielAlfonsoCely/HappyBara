@@ -47,9 +47,12 @@ public class CtrlRoom {
     private LocalDateTime lasTimefeed;
     private LocalDateTime lasTimesleep;
     private LocalDateTime lasTimeclean;
+    private long pruebita;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     public void initialize() {
-
+        threadclean();
+        threadfeed();
+        threadsleep();
         /*
          * The following function sets an specific animation for the pet depending on
          * the indicators
@@ -139,56 +142,132 @@ public class CtrlRoom {
     }
 
 
+    //Methods to create the thread for the buttons to calculate time since last execution
+    public void threadfeed(){
+        Thread clockThread1;
+        clockThread1 = new Thread(new Runnable() {
+        public void run() {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            while (true) {
+                LocalDateTime now = LocalDateTime.now();
+                if (lasTimefeed != null) {
+                    Duration duration = Duration.between(lasTimefeed, now);
+                    pruebita = duration.toSeconds();
+
+                    System.out.println("Seconds: " + duration.toSeconds());
+                    System.out.print("\n" + dtf.format(now));
+                }
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    });
+
+    clockThread1.start(); // Iniciar el hilo
+}
+
+    public void threadclean(){
+            Thread clockThread2;
+            clockThread2 = new Thread(new Runnable() {
+            public void run() {
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                while (true) {
+                    LocalDateTime now = LocalDateTime.now();
+                    if (lasTimeclean != null) {
+                        Duration duration = Duration.between(lasTimeclean, now);
+                        pruebita = duration.toSeconds();
+
+                        System.out.println("Seconds: " + duration.toSeconds());
+                        System.out.print("\n" + dtf.format(now));
+                    }
+
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        clockThread2.start(); // Iniciar el hilo
+    }
+    
+    public void threadsleep(){
+        Thread clockThread3;
+        clockThread3 = new Thread(new Runnable() {
+        public void run() {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            while (true) {
+                LocalDateTime now = LocalDateTime.now();
+                if (lasTimesleep != null) {
+                    Duration duration = Duration.between(lasTimesleep, now);
+                    pruebita = duration.toSeconds();
+
+                    System.out.println("Seconds: " + duration.toSeconds());
+                    System.out.print("\n" + dtf.format(now));
+                }
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    });
+
+    clockThread3.start(); // Iniciar el hilo
+}
+
     //Methods to interact with the pet
     public void feed() {
         sleep = 100;
 
-        
         LocalDateTime now = LocalDateTime.now();
-        if(lasTimefeed == null){
+        if (lasTimefeed == null) {
             lasTimefeed = now;
-        }
-        else{
-            System.out.println("Last time: " + lasTimefeed);
-            System.out.println("Now: " + now);
-            Duration duration = Duration.between(lasTimefeed, now);
+
+        } else {
             lasTimefeed = now;
-            System.out.println("Seconds: " + duration.toSeconds());
         }
 
-        System.out.println("Sleeping");
+        System.out.println("Feeding");
     }
+    
+
     public void clean() {
         hygiene = 100;
+        
         LocalDateTime now = LocalDateTime.now();
-        if(lasTimeclean == null){
+        if (lasTimeclean == null) {
             lasTimeclean = now;
-        }
-        else{
-            System.out.println("Last time: " + lasTimeclean);
-            System.out.println("Now: " + now);
-            Duration duration = Duration.between(lasTimeclean, now);
-            lasTimeclean = now;
-            System.out.println("Seconds: " + duration.toSeconds());
+
+            
+        } else {
+            lasTimeclean = now;   
         }
 
         System.out.println("Cleaning");
     }
+
     public void sleep() {
         food = 100;
         LocalDateTime now = LocalDateTime.now();
-        if(lasTimesleep == null){
+        
+        if (lasTimesleep == null) {
             lasTimesleep = now;
-        }
-        else{
-            System.out.println("Last time: " + lasTimesleep);
-            System.out.println("Now: " + now);
-            Duration duration = Duration.between(lasTimesleep, now);
-            lasTimesleep = now;
-            System.out.println("Seconds: " + duration.toSeconds());
+
+            
+        } else {
+            lasTimesleep = now;   
         }
 
-        System.err.println("Feeding");
+        System.out.println("Sleeping");
     }
 
 
