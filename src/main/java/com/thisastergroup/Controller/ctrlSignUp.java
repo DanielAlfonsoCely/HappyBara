@@ -89,7 +89,7 @@ public class CtrlSignUp implements Initializable {
         try {
 
             User us = new User(txtfUsername.getText(), hashedPwd, txtfEmail.getText(),
-                    cbGender.getValue(), (cbAge.getValue()), txtfCountry.getText(), 0);
+                    cbGender.getValue(), (cbAge.getValue()), txtfCountry.getText(), 0,"");
 
             try {
                 SQLUserMethods db_methods = new SQLUserMethods();

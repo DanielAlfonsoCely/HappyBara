@@ -42,28 +42,30 @@ public class SQLItemMethods extends SQLConnection {
      * 
      */
     public Item getItem(String itemName) {
+        
         try {
-            String query = "SELECT name, clothingType, price, discount, collection FROM Items WHERE name = ?;";
+            String query = "SELECT name, clothingType, price, discount, collection, path FROM Items WHERE name = ?;";
             ps = conn.prepareStatement(query);
             ps.setString(1, itemName);
             rs = ps.executeQuery();
 
-            while (rs.next()) {
-                items.add(new Item(rs.getString("name"), rs.getString("clothingType"), rs.getInt("price"),
-                        rs.getDouble("discount"), rs.getString("collection")));
+            if (rs.next()) {
+                System.out.println(rs.getString("name"));
+                return new Item(rs.getString("name"), rs.getString("clothingType"), rs.getInt("price"),
+                        rs.getDouble("discount"), rs.getString("collection"), rs.getString("path"));
 
-                return null;
+                
             }
             return null;
         } catch (SQLException exSQL) {
             System.err.println("Error: " + exSQL.getMessage());
-        } finally {
+        } /*finally {
             try {
                 conn.close();
             } catch (SQLException ex2SQL) {
                 System.err.println(ex2SQL);
             }
-        }
+        }*/
         return null;
     }
 
@@ -77,26 +79,54 @@ public class SQLItemMethods extends SQLConnection {
         items = new ArrayList<>();
         try {
             items = new ArrayList<>();
-            String query = "SELECT name, clothingType, price, discount, collection FROM Items;";
+            String query = "SELECT name, clothingType, price, discount, collection, path FROM Items;";
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
             rsmd = (ResultSetMetaData) rs.getMetaData();
 
             while (rs.next()) {
                 items.add(new Item(rs.getString("name"), rs.getString("clothingType"), rs.getInt("price"),
-                        rs.getDouble("discount"), rs.getString("collection")));
+                        rs.getDouble("discount"), rs.getString("collection"), rs.getString("path")));
             }
             return items;
         } catch (SQLException exSQL) {
             System.err.println("Error: " + exSQL.getMessage());
-        } finally {
+        } /*finally {
             try {
                 conn.close();
             } catch (SQLException ex2SQL) {
                 System.err.println(ex2SQL);
             }
-        }
+        }*/
         return new ArrayList<>();
     }
 
+    public ArrayList<Item> getUserItems(User us) {
+        items = new ArrayList<>();
+        ArrayList<String> strings = us.getArrayItems();
+        ArrayList<Item> items_user = new ArrayList<>();
+        try {
+            for (String string : strings) {
+                String query = "SELECT name, clothingType, price, discount, collection, path FROM Items WHERE name = ?;";
+                ps = conn.prepareStatement(query);
+                ps.setString(1, string);
+                rs = ps.executeQuery();
+
+                while (rs.next()) {
+                    items_user.add(new Item(rs.getString("name"), rs.getString("clothingType"), rs.getInt("price"),
+                            rs.getDouble("discount"), rs.getString("collection"), rs.getString("path")));
+                }
+            }
+            return items_user;
+        } catch (SQLException exSQL) {
+            System.err.println("Error: " + exSQL.getMessage());
+        } /*finally {
+            try {
+                conn.close();
+            } catch (SQLException ex2SQL) {
+                System.err.println(ex2SQL);
+            }
+        }*/
+        return items_user;
+    }
 }

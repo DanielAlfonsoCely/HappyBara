@@ -25,10 +25,11 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import java.util.ArrayList;
-import com.thisastergroup.controller.CtrlRoom;
+
 import com.thisastergroup.Model.JournalEntry;
 import com.thisastergroup.Model.SQLJournalMethods;
 import com.thisastergroup.controller.CtrlLogin;
+import com.thisastergroup.controller.CtrlRoom;
 
 public class CtrlJournal {
     // Nodes and elements from the Journal.fxml

@@ -7,13 +7,15 @@ public class Item {
     private int price;
     private double discount;
     private String collection;
+    private String path;
 
-    public Item(String name, String clothingType, int price, double discount, String collection) {
+    public Item(String name, String clothingType, int price, double discount, String collection, String path) {
         this.name = name;
         this.clothingType = clothingType;
         this.price = price;
         this.discount = discount;
         this.collection = collection;
+        this.path =path;
     }
 
     /**
@@ -85,4 +87,16 @@ public class Item {
     public void setDiscount(double discount) {
         this.discount = discount;
     }
+    public String getImage_path() {
+        return path;
+    }
+    public void setImage_path(String image_path) {
+        this.path = path;
+    }
+    public String toString() {
+        return "Name: " + name + " Clothing Type: " + clothingType + " Price: " + price + " Discount: " + discount
+                + " Collection: " + collection + " Image Path: " + path;
+    }
+
 }
+

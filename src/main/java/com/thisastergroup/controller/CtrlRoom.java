@@ -27,6 +27,8 @@ import com.thisastergroup.Model.SQLUserMethods;
 import com.thisastergroup.Model.User;
 import com.thisastergroup.Model.XMLHandler;
 import com.thisastergroup.controller.CtrlLogin;
+import com.thisastergroup.Model.SQLItemMethods;
+import com.thisastergroup.Model.Item;
 
 public class CtrlRoom {
     @FXML
@@ -45,6 +47,8 @@ public class CtrlRoom {
     private AnchorPane apButtons;
     @FXML
     private ImageView imgChiguiro;
+    @FXML
+    private Button toshop;
 
     // ImageView imageView = new
     // ImageView(getClass().getResource("../../../alert.png").toExternalForm());
@@ -68,8 +72,14 @@ public class CtrlRoom {
     private long secondsClean;
     private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
     private SQLUserMethods sql = new SQLUserMethods();
+    private SQLItemMethods sqlItemMethods = new SQLItemMethods();
 
     public void initialize() {
+
+        //holi cata jaja, soo, si quieres obtener el arraylist de items del usuario te toca:
+        //ArrayList<Item> userItems = sqlItemMethods.getUserItems(user);
+        //System.out.println(userItems);
+
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             // code to run when the application is closed
@@ -90,6 +100,8 @@ public class CtrlRoom {
         threadclean();
         threadfeed();
         threadsleep();
+
+
 
         /**
          * The following function sets an specific animation for the pet depending on
@@ -184,13 +196,9 @@ public class CtrlRoom {
                     if (lasTimefeed != null) {
                         Duration duration = Duration.between(lasTimefeed, now);
                         secondsFeed = duration.toSeconds();
-
-                        if (secondsFeed <= 20)
-                            btnFood.setStyle("-fx-background-color: #5E9D46;");
-                        else if (secondsFeed <= 30)
-                            btnFood.setStyle("-fx-background-color: #D9C830;");
-                        else
-                            btnFood.setStyle("-fx-background-color: #C94242;");
+                        btnFood.setStyle("-fx-background-color: " + obtenerColorHexadecimal(secondsFeed,20.0,35.0) + ";");
+                        
+                        
                         System.out.println("Seconds feed: " + secondsFeed);
 
                     } else {
@@ -221,12 +229,7 @@ public class CtrlRoom {
                         Duration duration = Duration.between(lasTimeclean, now);
                         secondsClean = duration.toSeconds();
 
-                        if (secondsClean <= 60)
-                            btnHygiene.setStyle("-fx-background-color: #5E9D46;");
-                        else if (secondsClean <= 70)
-                            btnHygiene.setStyle("-fx-background-color: #D9C830;");
-                        else
-                            btnHygiene.setStyle("-fx-background-color: #C94242;");
+                        btnHygiene.setStyle("-fx-background-color: " + obtenerColorHexadecimal(secondsClean,10.0,30.0) + ";");
                         System.out.println("Seconds clean: " + secondsClean);
 
                     } else {
@@ -256,13 +259,7 @@ public class CtrlRoom {
                     if (lasTimesleep != null) {
                         Duration duration = Duration.between(lasTimesleep, now);
                         secondsSleep = duration.toSeconds();
-
-                        if (secondsSleep <= 20)
-                            btnSleep.setStyle("-fx-background-color: #5E9D46;");
-                        else if (secondsSleep <= 30)
-                            btnSleep.setStyle("-fx-background-color: #D9C830;");
-                        else
-                            btnSleep.setStyle("-fx-background-color: #C94242;");
+                        btnSleep.setStyle("-fx-background-color: " + obtenerColorHexadecimal(secondsSleep,10.0,30.0) + ";");
                         System.out.println("Seconds sleep:  " + secondsSleep);
                         System.out.println('\n');
                     } else {
@@ -277,9 +274,49 @@ public class CtrlRoom {
                 }
             }
         });
-        clockThread3.setDaemon(true);
+        clockThread3.setDaemon(true); // Hacer que el hilo sea demonio
         clockThread3.start(); // Iniciar el hilo
     }
+
+    // Method to calculate the color of the button based on the time since last
+    public static String obtenerColorHexadecimal(long seconds, double seconds_yellow, double seconds_red) {
+        // Definir los colores verde, amarillo y rojo en RGB
+        int[] verde = {0x5E, 0x9D, 0x46};    //  #5E9D46
+        int[] amarillo = {0xD9, 0xC8, 0x30}; //  #D9C830
+        int[] rojo = {0xC9, 0x42, 0x42};     //  #C94242
+    
+        int[] colorResultante = new int[3];
+        double porcentaje;
+    
+        // Si los segundos son mayores o iguales a seconds_red, quedarse en rojo
+        if (seconds >= seconds_red) {
+            return "#C94242"; // Color rojo en formato hexadecimal
+        }
+    
+        // Calcular el porcentaje basado en los segundos
+        if (seconds <= seconds_yellow) {
+            // Transición de verde a amarillo
+            porcentaje = (double) seconds / seconds_yellow;
+            for (int i = 0; i < 3; i++) {
+                colorResultante[i] = (int) (verde[i] + (amarillo[i] - verde[i]) * porcentaje);
+            }
+        } else {
+            // Transición de amarillo a rojo
+            porcentaje = (double) (seconds - seconds_yellow) / (seconds_red - seconds_yellow);
+            for (int i = 0; i < 3; i++) {
+                colorResultante[i] = (int) (amarillo[i] + (rojo[i] - amarillo[i]) * porcentaje);
+            }
+        }
+    
+        // Asegurarse de que los valores de RGB estén dentro del rango 0-255
+        for (int i = 0; i < 3; i++) {
+            colorResultante[i] = Math.min(255, Math.max(0, colorResultante[i]));
+        }
+    
+        // Convertir el color a formato hexadecimal asegurando que siempre tenga 2 dígitos por componente
+        return String.format("#%02x%02x%02x", colorResultante[0], colorResultante[1], colorResultante[2]);
+    }
+
 
     // Methods to interact with the pet
     public void feed() {
@@ -318,14 +355,7 @@ public class CtrlRoom {
 
     }
 
-    public void colorChange(long seconds, Button button) {
-        if (seconds <= 20)
-            button.setStyle("-fx-background-color: #5E9D46;");
-        else if (seconds <= 30)
-            button.setStyle("-fx-background-color: #D9C830;");
-        else
-            button.setStyle("-fx-background-color: #C94242;");
-    }
+    
 
     public LocalDateTime String_To_DateTime(String string) {
         return LocalDateTime.parse(string, dtf);
@@ -335,4 +365,21 @@ public class CtrlRoom {
         return "" + dtf.format(lasTimeclean) + "&" + dtf.format(lasTimefeed) + "&" + dtf.format(lasTimesleep);
     }
 
+    public void toShop(ActionEvent event) throws IOException {
+        Stage stage;
+        Parent root;
+        Scene scene;
+        
+
+            
+            root = FXMLLoader.load(getClass().getResource("..//view//shop_try.fxml"));
+            scene = new Scene(root, 500, 480);
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+            user.setLastTimes(Stringfechas());
+            sql.updateLastTimes(user);
+
+        
+    }
 }

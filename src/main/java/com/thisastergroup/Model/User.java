@@ -1,5 +1,7 @@
 package com.thisastergroup.Model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,6 +15,7 @@ import java.util.regex.Pattern;
  * I would change the constructor to fit the previous reqs as well so it also covers scenarios where the user is created the first time
 */
 
+
 public class User {
 
     private String username;
@@ -23,6 +26,7 @@ public class User {
     private String country;
     private int balance;
     private String lastTimes ;
+    private String items = "";
 
 
     /**
@@ -40,7 +44,7 @@ public class User {
      * @param country  the country of the user as a string
      * 
      */
-    public User(String username, String password, String email, String gender, int age, String country, int balance) {
+    public User(String username, String password, String email, String gender, int age, String country, int balance, String items) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -48,6 +52,7 @@ public class User {
         this.age = age;
         this.country = country;
         this.balance = balance;
+        this.items = items;
     }
 
     @Override
@@ -194,4 +199,22 @@ public class User {
     public void setLastTimes(String lastTimes) {
         this.lastTimes = lastTimes;
     }
+
+    public ArrayList<String> getArrayItems() {
+        
+        String[] itemsArray = this.items.split("&&");
+        ArrayList<String> items = new ArrayList<>(Arrays.asList(itemsArray));
+        return items;
+    }
+    public String getItems() {
+        return items;
+    }
+    public void addItem(String item) {
+        if(this.items== null )this.items = item;
+        else this.items = this.items +"&&" + item;
+    }
+    public void setItems(String items) {
+        this.items = items;
+    }
+    
 }

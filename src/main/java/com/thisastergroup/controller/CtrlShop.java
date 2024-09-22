@@ -2,6 +2,7 @@ package com.thisastergroup.controller;
 
 import com.thisastergroup.Model.SQLItemMethods;
 import com.thisastergroup.Model.Item;
+import com.thisastergroup.controller.CtrlLogin;
 
 import java.util.ArrayList;
 
@@ -28,11 +29,11 @@ public class CtrlShop {
     private ArrayList<Item> items;
 
     public void initialize() {
-        GridPane.setColumnSpan(apIntroPromo, 3);
-        GridPane.setColumnSpan(apBanner, 2);
+        //GridPane.setColumnSpan(apIntroPromo, 3);
+        //GridPane.setColumnSpan(apBanner, 2);
 
         items = sqlItemMethods.getAllItems();
-        loadItems();
+        //loadItems();
     }
 
     public void loadItems() {

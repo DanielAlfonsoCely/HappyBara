@@ -126,8 +126,9 @@ public class SQLUserMethods extends SQLConnection {
                 System.out.println("Verifying password...");
                 if (email.equals(rs.getString("email")) && BCrypt.checkpw(password, rs.getString("password"))) {
                     System.out.println("Password verified");
+                    System.out.println(rs.getString("items"));
                     return new User(rs.getString("username"), rs.getString("password"), rs.getString("email"),
-                            rs.getString("Gender"), rs.getInt("age"), rs.getString("Country"), rs.getInt("balance"));
+                            rs.getString("Gender"), rs.getInt("age"), rs.getString("Country"), rs.getInt("balance"), rs.getString("items"));
 
                 }
                 System.out.println("Password incorrect");
@@ -208,7 +209,7 @@ public class SQLUserMethods extends SQLConnection {
             }
         }
     }
-
+   
     public String getlastTimes(User user) {
     
         try {            
@@ -234,6 +235,49 @@ public class SQLUserMethods extends SQLConnection {
         }*/
         return null;
     }
+
+    public void updateitems(User us) {
+        try {
+            String query = "UPDATE Users SET items = ?  WHERE username = ?";
+            ps = conn.prepareStatement(query);
+            ps.setString(1, us.getItems());
+            ps.setString(2, us.getUsername());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        } finally {
+            /*try {
+                conn.close();
+            } catch (SQLException ex2SQL) {
+                System.err.println(ex2SQL);
+            }*/
+        }
+    }
+    
+     
+    public String getItems(User us){
+        try {
+            String query = "SELECT items FROM Users WHERE username = ?";
+            ps = conn.prepareStatement(query);
+            ps.setString(1, us.getUsername());
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                System.out.println("Getting items...");
+                System.out.println("Items retrieved");
+                
+                return rs.getString("items");
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        } /*finally {
+        try {
+            conn.close();
+        } catch (SQLException ex2SQL) {
+            System.err.println(ex2SQL);
+        }
+    }*/
+    return null;
+}
 
 
 
